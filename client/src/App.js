@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, AppBar, Typography, Grow, Grid } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { useDispatch } from "react-redux";
+import { getPosts } from "./actions/posts";
 import memories from "./images/memories.png";
 import Posts from "./components/Posts/Posts";
 import Form from "./components/Form/Form";
 import useStyles from "./styles";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const App = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getPosts());
+  }, [dispatch]);
   const theme = createTheme({
     spacing: (factor) => `${0.25 * factor}rem`, // (Bootstrap strategy)
   });
