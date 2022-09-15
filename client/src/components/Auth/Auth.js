@@ -35,12 +35,13 @@ const Auth = () => {
     setFormData({ ...formData, [event.target.name]: event.target.value })
   }
 
-  const handleChangePassword = () => {
+  const handleShowPassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword)
   }
 
   const switchMode = () => {
     setIsSignup((prevIsSignup) => !prevIsSignup);
+    setShowPassword(false);
   }
 
   const googleSuccess = async (res) => {
@@ -71,19 +72,19 @@ const Auth = () => {
             <Grid container spacing={2}>
                 { isSignup && (
                     <>
-                    <Input name="firstname" label="First Name" handleChange={handleChange} autoFocus half />
-                    <Input name="lirstname" label="Lirst Name" handleChange={handleChange} half />
+                    <Input name="firstName" label="First Name" handleChange={handleChange} autoFocus half />
+                    <Input name="lastName" label="Last Name" handleChange={handleChange} half />
                     </>
                 )}
-                <Input name="email" label="Email Address" handleChange={handleChangePassword} type="email" />
-                <Input name="password" label="Password" handleChange={handleChangePassword} type="password" />
-                { isSignup && <Input name="confirmPassword" label="Repeat Password" handleChange={handleChangePassword} type="password" /> }
+                <Input name="email" label="Email Address" handleChange={handleChange} type="email" />
+                <Input name="password" label="Password" handleChange={handleChange} handleShowPassword={handleShowPassword} type={showPassword ? "text" : "password"} />
+                { isSignup && <Input name="confirmPassword" label="Repeat Password" handleChange={handleChange} handleShowPassword={handleShowPassword} type="password" /> }
             </Grid>
             <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                 { isSignup ? 'Sign Up' : 'Sign In' }
             </Button>
             <GoogleLogin
-              clientId="GOOGLE_ID"
+              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
               render={(renderProps) => (
                 <Button
                   className={classes.googleButton}
